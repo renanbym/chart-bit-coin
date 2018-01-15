@@ -2,10 +2,11 @@ document.addEventListener('DOMContentLoaded', function() {
 
   var updatePageButton = document.getElementById('updatePage');
   updatePageButton.addEventListener('click', init);
+
   init();
 
-
 });
+
 
 function init(){
   loadMercado( function(err, res ) {

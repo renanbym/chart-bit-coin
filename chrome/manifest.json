@@ -11,9 +11,10 @@
   },
   "permissions": [
     "activeTab"
+    , "alarms"
+    , "notifications"
+    , "https://www.mercadobitcoin.net/*"
+    ,  "tabs"
+    , "http://*/*"
   ]
-  , "background": {
-    "scripts": ["background.js"],
-    "persistent": false
-  }
 }

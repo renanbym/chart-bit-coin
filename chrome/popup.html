@@ -10,6 +10,8 @@
     box-sizing: border-box;
     outline: none;
     text-decoration: none;
+    font-size: 15px;
+
   }
 
   body{
@@ -27,6 +29,29 @@
     color: #000;
     line-height: 30px;
     cursor: pointer;
+    font-size: 12px;
+
+  }
+
+  h1, h2, p{
+    margin: 0px;
+    padding: 0px;
+  }
+
+  span{
+    border-bottom: solid 1px #999999;
+    font-size: 10px;
+    margin-bottom: 10px;
+    display: inline-block;
+    vertical-align: top;
+    width: 100%;
+    color: #cccccc;
+    margin-top: 20px;
+  }
+
+  #toggleAlarm{
+    margin-top: 20px;
+    width: 100%;
   }
 
   </style>
@@ -34,8 +59,14 @@
 <body>
   <a class="button" href="https://www.mercadobitcoin.net" target="_blank">Pag</a>
   <button id="updatePage" >Update</button>
-  <h1>R$ 0,00</h1>
-  <h2>R$ 0,00</h2>
-  <p>00/00/00</p>
+  <span>BUY</span><h1>R$ 0,00</h1>
+  <span>SELL</span><h2>R$ 0,00</h2>
+  <span>Date</span><p>00/00/00</p>
+
+  <footer id="info">
+    <button id="toggleAlarm">Activate alarm</button>
+  </footer>
+
+  <script src="alarm.js" charset="utf-8"></script>
 </body>
 </html>

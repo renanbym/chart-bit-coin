@@ -1,18 +1,23 @@
 {
-  "name": "chart-bit-coin",
-  "version": "1.0.0",
-  "description": "",
-  "main": "app.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "author": "",
-  "license": "ISC",
-  "dependencies": {
-    "ejs": "^2.5.7",
-    "express": "^4.16.2",
-    "http": "0.0.0",
-    "plotly": "^1.0.6",
-    "request": "^2.83.0"
-  }
+    "name": "chart-bit-coin",
+    "version": "1.0.0",
+    "description": "",
+    "main": "app.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "bin": {
+        "bitcoin": "./bin/index.js"
+    },
+    "author": "",
+    "license": "ISC",
+    "dependencies": {
+        "ejs": "^2.5.7",
+        "express": "^4.16.2",
+        "http": "0.0.0",
+        "plotly": "^1.0.6",
+        "request": "^2.83.0",
+        "format-currency": "^1.0.0",
+        "moment": "^2.20.1"
+    }
 }

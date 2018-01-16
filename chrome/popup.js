@@ -11,8 +11,8 @@ document.addEventListener('DOMContentLoaded', function() {
 function init(){
   loadMercado( function(err, res ) {
     if( err ) alert(err);
-    document.getElementsByTagName('h1')[0].innerHTML =  "R$ "+new Number(res.ticker.sell).toFixed(3);
-    document.getElementsByTagName('h2')[0].innerHTML =  "R$ "+new Number(res.ticker.buy).toFixed(3);
+    document.getElementsByTagName('h1')[0].innerHTML =  "R$ "+new Number(res.ticker.buy).toFixed(3);
+    document.getElementsByTagName('h2')[0].innerHTML =  "R$ "+new Number(res.ticker.sell).toFixed(3);
     document.getElementsByTagName('p')[0].innerHTML = timeConverter(res.ticker.date);
   })
 }

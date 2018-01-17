@@ -1,4 +1,3 @@
-//
 const express = require('express');
 const request = require('request');
 const http = require('http');
@@ -8,7 +7,6 @@ let alldates = []
 let dataValues = []
 let date1 = new Date("Nov 01, 2017 00:00:00");
 let date2 = new Date('Nov 10, 2017 00:00:00');
-console.log(date2.getFullYear()+'-'+date2.getMonth()+'-'+date2.getDate());
 
 const app = express();
 const server = http.createServer(app);

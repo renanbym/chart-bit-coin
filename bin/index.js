@@ -6,24 +6,17 @@ const program = require('commander')
 const blessed = require('blessed')
 const contrib = require('blessed-contrib')
 
-// 
-// const mercadobitcoin = require('../mercadobitcoin')
-//
-// mercadobitcoin.summaryRange({ dt_ini: '2017-01-01', dt_end: '2017-01-03' })
-// .then( (res) => {
-//   console.log(res);
-// })
-// .catch( (err) => {
-//   console.log(err);
-// })
-//
-// program
-// .version('0.1.0')
-// .arguments('<cmd>')
-// .action(function (cmd) {
-//   cmdValue = cmd;
-// })
-// .parse(process.argv);
+program
+.version('0.1.0')
+.arguments('<cmd>')
+.option('--dt_ini [dt_ini]', 'data inicial')
+.option('--dt_end [dt_end]', 'data final')
+.option('-d, --days [days]', 'dias a partir de hoje')
+.option('-m, --months [months]', 'dias a partir de hoje')
+.action(function (cmd) {
+  cmdValue = cmd;
+})
+.parse(process.argv);
 
 
 if (typeof cmdValue === 'undefined') {
@@ -47,23 +40,53 @@ if (typeof cmdValue === 'undefined') {
 }
 
 if(typeof cmdValue !== 'undefined' && cmdValue === "chart" ){
-  // let screen = blessed.screen()
-  // let line = contrib.line({})
-  //
-  // let data = [ {
-  //   x: ['2017-01-01', '2017-01-02', '2017-01-03', '2017-01-04'],
-  //   y: [0, 0.0695652173913043, 0.11304347826087, 2],
-  //   style: {
-  //     line: 'red'
-  //   }
-  // }]
-  //
-  // screen.append(line)
-  // line.setData(data)
-  //
-  // screen.key(['escape', 'q', 'C-c'], function(ch, key) {
-  //   return process.exit(0);
-  // })
-  //
-  // screen.render()
+
+  let mercadobitcoin = require('../mercadobitcoin')
+
+  let dt_ini = typeof program.dt_ini != 'undefined' ? program.dt_ini : moment().subtract(30, 'd').format('YYYY-MM-DD')
+  let dt_end = typeof program.dt_end != 'undefined' ? program.dt_end : moment().format('YYYY-MM-DD')
+
+  if( typeof program.days != 'undefined' ) dt_ini = moment().subtract( program.days, 'd').format('YYYY-MM-DD')
+  if( typeof program.months != 'undefined' ) dt_ini = moment().subtract( program.months, 'm').format('YYYY-MM-DD')
+
+
+  mercadobitcoin.summaryRange({ dt_ini: dt_ini, dt_end: dt_end })
+  .then( (res) => {
+
+    let screen = blessed.screen()
+
+    let grid = new contrib.grid({rows: 2, cols: 2, screen: screen})
+
+    let lineMercadoBitcoin = grid.set(0, 0, 1, 2, contrib.line, {
+      style:{
+        text: "yellow"
+        , baseline: "black"
+      }
+      , xLabelPadding: 3
+      , xPadding: 5
+      , label: 'MercadoBitcoin'
+    })
+
+    let data = [ {
+      x: res.x
+      ,  y: res.y
+      , showLegend: true
+      , wholeNumbersOnly: false
+      , xPadding: 5
+      , label: 'Title'
+      , baseline: "yellow"
+      , style: {
+        line: 'red'
+      }
+    }]
+    lineMercadoBitcoin.setData(data)
+
+    screen.render()
+
+  })
+  .catch( (err) => {
+    console.log('error', err);
+  })
+
+
 }

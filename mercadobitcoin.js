@@ -1,15 +1,30 @@
 const request = require('request');
 const moment = require('moment');
 
+
+
 function MercadoBitcoin(){
-    var allalldates = []
-    var dataValues = []
+
 }
 
-function doRequest(url, callback) {
-    request(url, function (error, res, body) {
+function doRequest( params, callback ){
+
+    let date1 = moment(params.dt_ini);
+    let date2 = moment(params.dt_end);
+
+    request('https://www.mercadobitcoin.net/api/BTC/day-summary/'+date1.format('YYYY/MM/DD')+'/', function (error, res, body) {
         if (!error && res.statusCode == 200) {
-            callback(false, body);
+
+            params.alldates.push(date1.format('YYYY-MM-DD'))
+            params.dataValues.push(JSON.parse(body).closing)
+
+            date1.add(1, 'd')
+            if( date1.format('YYYY-MM-DD') != date2.format('YYYY-MM-DD') ){
+                doRequest( { dt_ini: date1, dt_end: date2, alldates: params.alldates, dataValues: params.dataValues }, callback )
+            }else{
+                callback(false, { x: params.alldates, y: params.dataValues });
+            }
+
         } else {
             callback(error, false);
         }
@@ -19,29 +34,14 @@ function doRequest(url, callback) {
 
 MercadoBitcoin.prototype.summaryRange = ( params ) => {
 
-
-    console.log(MercadoBitcoin.allalldates);
-
     let date1 = moment(params.dt_ini);
     let date2 = moment(params.dt_end);
 
-    console.log(date1.format('YYYY-MM-DD'))
-
     return new Promise( (resolve, reject) => {
-
-        doRequest('https://www.mercadobitcoin.net/api/BTC/day-summary/'+date1.format('YYYY/MM/DD')+'/', (err, body) => {
-            if(err) reject(err)
-            this.alldates.push(date1.format('YYYY-MM-DD'))
-            this.dataValues.push(JSON.parse(body).closing)
-            date1.add(1, 'd')
-
-            if( date1 != date2 ){
-                summaryRange({ dt_ini: date1.format('YYYY/MM/DD'), dt_end: date2.format('YYYY/MM/DD') })
-            }else{
-                resolve({ x: alldates, y: dataValues })
-            }
+        doRequest({ dt_ini: date1, dt_end: date2, alldates: [], dataValues: [] }, (err, res) =>{
+            if( err ) reject(err)
+            resolve( res )
         })
-
     })
 
 }
